@@ -2,6 +2,10 @@ import { useState } from "react";
 import validateRegister from "../validator/validate-for-register";
 import ErrorMessage from "./Errormessage";
 import RegisterInput from "./RegisterInput";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { registerThunk } from "../slice/auth-slice";
+
 const initialInput = {
   userName: "",
   password: "",
@@ -11,14 +15,27 @@ const initialInput = {
 
 export default function Register() {
   const [input, setInput] = useState(initialInput);
-  const [error, setError] = useState({ userName: "test error" });
+  const [error, setError] = useState({});
+
+  const dispatch = useDispatch();
+
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
-  const handleSubmitForm = (e) => {
-    e.preventDefault();
-    const result = validateRegister(input);
-    console.dir(result);
+  const handleSubmitForm = async (e) => {
+    try {
+      e.preventDefault();
+      const result = validateRegister(input);
+      if (result) {
+        return setError(result);
+      }
+      setError({});
+      await dispatch(registerThunk(input)).unwrap();
+      toast.success("register successfully");
+      onSuccess();
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
   };
 
   return (
@@ -45,6 +62,7 @@ export default function Register() {
               value={input.password}
               onChange={handleChangeInput}
             />
+            <ErrorMessage message={error.password} />
           </div>
           <div>
             <RegisterInput
@@ -53,6 +71,7 @@ export default function Register() {
               value={input.userEmail}
               onChange={handleChangeInput}
             />
+            <ErrorMessage message={error.userEmail} />
           </div>
           <div>
             <RegisterInput
@@ -61,6 +80,7 @@ export default function Register() {
               value={input.confirmPassword}
               onChange={handleChangeInput}
             />
+            <ErrorMessage message={error.confirmPassword} />
           </div>
           <div className="grid place-items-end">
             <button className="btn btn-primary">Register</button>

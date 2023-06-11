@@ -15,12 +15,17 @@ const registerSchema = Joi.object({
     .messages({'string.empty':'Email is required'}),
     confirmPassword: Joi.string().valid(Joi.ref('password')).trim()
     .required()
-    .messages({'any.only':'Password and Confirm Password does not match','string.empty':'Username is required'}),
+    .messages({'any.only':'Password and Confirm Password does not match','string.empty':'Password is required'}),
 })
 
 const validateRegister = input => {
     const {error} = registerSchema.validate(input,{abortEarly: false})
-    return error;
+    if (error) {   
+    return error.details.reduce((acc,el) => {
+     acc[el.path[0]] = el.message;
+     return acc;
+    }, {});
+}
 }
 
 export default validateRegister;
