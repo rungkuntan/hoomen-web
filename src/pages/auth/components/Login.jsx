@@ -4,7 +4,7 @@ import ErrorMessage from "./Errormessage";
 import useForm from "../../../hooks/useForm";
 import { useDispatch } from "react-redux";
 import { login } from "../slice/auth-slice";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 export default function LoginForm() {
   const { input, handleChangeInput, error, handleSubmitForm } = useForm(
     {
@@ -19,7 +19,7 @@ export default function LoginForm() {
     try {
       await dispatch(login(data)).unwrap();
     } catch (err) {
-      toast.error("Invalid Username");
+      console.log(err);
     }
   };
 
@@ -58,7 +58,7 @@ export default function LoginForm() {
               <ErrorMessage message={error.password} />
             </div>
           </div>
-
+          <Link to="/register">Sign up</Link>
           <div className="mt-5">
             <button className="bg-slate-500 hover:bg-slate-400 rounded-lg text-white text-lg font-bold px-8 py-1 min-w-[10rem]">
               Login

@@ -83,7 +83,9 @@ export default function Register() {
             <ErrorMessage message={error.confirmPassword} />
           </div>
           <div className="grid place-items-end">
-            <button className="btn btn-primary">Register</button>
+            <button className="bg-slate-500 hover:bg-slate-400 rounded-lg text-white text-lg font-bold px-8 py-1 min-w-[10rem]">
+              Register
+            </button>
           </div>
         </form>
       </div>

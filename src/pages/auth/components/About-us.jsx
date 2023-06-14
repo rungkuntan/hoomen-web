@@ -6,7 +6,7 @@ export default function AboutUs() {
         className="w-[1280px] h-full opacity-50 object-cover absolute "
       />
       <div>
-        <h2 class="font-heading tracking-px-n mb-10 pt-5 text-center text-5xl font-bold leading-none text-secGreen md:text-7xl xl:text-5xl">
+        <h2 className="font-heading tracking-px-n mb-10 pt-5 text-center text-5xl font-bold leading-none text-secGreen md:text-7xl xl:text-5xl">
           About Us
         </h2>
       </div>
